@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government School Student Attendance Portal</title>
+    <!-- Google Fonts: Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h2>Shiksha Portal</h2>
+                        <span>Govt. School System</span>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-view="dashboard" id="nav-dashboard">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-view="attendance" id="nav-attendance">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Take Attendance</span>
+                </a>
+                <a href="#" class="nav-item" data-view="students" id="nav-students">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Student Registry</span>
+                </a>
+                <a href="#" class="nav-item" data-view="reports" id="nav-reports">
+                    <i class="fa-solid fa-file-invoice"></i>
+                    <span>Attendance Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-badge">
+                    <div class="user-avatar">T</div>
+                    <div class="user-info">
+                        <p class="user-name">Primary Teacher</p>
+                        <p class="user-role">Class Instructor</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <button class="mobile-menu-toggle" id="menu-toggle">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <h1 id="view-title">Dashboard Overview</h1>
+                </div>
+                <div class="header-right">
+                    <div class="date-badge">
+                        <i class="fa-solid fa-clock"></i>
+                        <span id="current-date-display">Wednesday, July 8, 2026</span>
+                    </div>
+                    <button class="btn btn-secondary btn-icon-only" id="btn-theme-toggle" title="Toggle Light/Dark Mode">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    <button class="btn btn-accent btn-icon" id="btn-quick-attendance">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>New Attendance</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Scrollable View Container -->
+            <div class="view-container">
+                
+                <!-- VIEW: DASHBOARD -->
+                <section id="view-dashboard" class="content-view active">
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon bg-soft-primary">
+                                <i class="fa-solid fa-users-viewfinder"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-label">Total Registered Students</span>
+                                <h3 class="stat-number" id="stat-total-students">0</h3>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon bg-soft-success">
+                                <i class="fa-solid fa-user-check"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-label">Present Today</span>
+                                <h3 class="stat-number" id="stat-present-today">0</h3>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon bg-soft-danger">
+                                <i class="fa-solid fa-user-xmark"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-label">Absent Today</span>
+                                <h3 class="stat-number" id="stat-absent-today">0</h3>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon bg-soft-warning">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div class="stat-details">
+                                <span class="stat-label">Monthly Attendance Rate</span>
+                                <h3 class="stat-number" id="stat-monthly-rate">0%</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dashboard Details -->
+                    <div class="dashboard-details">
+                        <!-- Left Panel: Recent Activity -->
+                        <div class="panel-card flex-2">
+                            <div class="panel-header">
+                                <h3><i class="fa-solid fa-history"></i> Recent Attendance Records</h3>
+                                <button class="btn btn-text btn-sm" id="btn-view-all-reports">View All</button>
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="data-table" id="table-recent-attendance">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Class</th>
+                                                <th>Present</th>
+                                                <th>Absent</th>
+                                                <th>Rate</th>
+                                                <th>Status</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="recent-attendance-tbody">
+                                            <tr>
+                                                <td colspan="7" class="text-center text-muted">No attendance marked yet.</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Attendance Alerts -->
+                        <div class="panel-card flex-1">
+                            <div class="panel-header">
+                                <h3><i class="fa-solid fa-triangle-exclamation text-warning"></i> Low Attendance Alerts</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="alert-list" id="low-attendance-list">
+                                    <div class="empty-state">
+                                        <i class="fa-solid fa-circle-check text-success"></i>
+                                        <p>All students have optimal attendance (>75%).</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW: TAKE ATTENDANCE -->
+                <section id="view-attendance" class="content-view">
+                    <div class="attendance-setup-card card">
+                        <div class="setup-form-row">
+                            <div class="form-group flex-2">
+                                <label for="attendance-class-select">Select Class/Section</label>
+                                <div class="select-wrapper">
+                                    <select id="attendance-class-select">
+                                        <option value="">-- Select Class --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label for="attendance-date-picker">Attendance Date</label>
+                                <input type="date" id="attendance-date-picker" class="form-input">
+                            </div>
+                            <div class="form-actions-row flex-1">
+                                <button class="btn btn-primary w-100" id="btn-start-attendance">
+                                    <i class="fa-solid fa-clipboard-user"></i>
+                                    Load Class List
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Board (Initially Hidden) -->
+                    <div class="attendance-board card" id="attendance-board" style="display: none;">
+                        <div class="board-header">
+                            <div class="board-title-info">
+                                <h3 id="board-class-title">Class 10-A</h3>
+                                <span class="badge" id="board-date-badge">2026-07-08</span>
+                            </div>
+                            <div class="board-actions">
+                                <button class="btn btn-sm btn-soft-success" id="btn-mark-all-present">
+                                    <i class="fa-solid fa-check-double"></i> Mark All Present
+                                </button>
+                                <button class="btn btn-sm btn-soft-danger" id="btn-mark-all-absent">
+                                    <i class="fa-solid fa-xmark"></i> Mark All Absent
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="search-bar-row">
+                            <div class="search-input-wrapper">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="attendance-search" placeholder="Search student by name or roll number...">
+                            </div>
+                            <div class="attendance-summary-pills">
+                                <span class="summary-pill present">Present: <strong id="count-present">0</strong></span>
+                                <span class="summary-pill absent">Absent: <strong id="count-absent">0</strong></span>
+                                <span class="summary-pill late">Late: <strong id="count-late">0</strong></span>
+                            </div>
+                        </div>
+
+                        <!-- Attendance Table List -->
+                        <div class="attendance-list-container">
+                            <div class="table-responsive">
+                                <table class="data-table" id="table-attendance-sheet">
+                                    <thead>
+                                        <tr>
+                                            <th>Roll No.</th>
+                                            <th>Name</th>
+                                            <th>Gender</th>
+                                            <th class="text-center">Status</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="attendance-sheet-tbody">
+                                        <!-- Dynamic Content -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="board-footer">
+                            <button class="btn btn-secondary" id="btn-cancel-attendance">Cancel</button>
+                            <button class="btn btn-soft-danger btn-icon" id="btn-reset-attendance">
+                                <i class="fa-solid fa-rotate-left"></i>
+                                <span>Reset Sheet</span>
+                            </button>
+                            <button class="btn btn-success btn-icon" id="btn-save-attendance">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <span>Save & Submit Attendance</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW: STUDENT REGISTRY -->
+                <section id="view-students" class="content-view">
+                    <div class="section-actions-header">
+                        <div class="actions-left">
+                            <div class="select-wrapper width-200">
+                                <select id="student-filter-class">
+                                    <option value="">All Classes</option>
+                                </select>
+                            </div>
+                            <div class="search-input-wrapper width-300">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" id="student-search-input" placeholder="Search by name or roll no...">
+                            </div>
+                        </div>
+                        <div class="actions-right">
+                            <button class="btn btn-secondary" id="btn-manage-classes">
+                                <i class="fa-solid fa-layer-group"></i> Manage Classes
+                            </button>
+                            <button class="btn btn-primary" id="btn-open-add-student">
+                                <i class="fa-solid fa-user-plus"></i> Add New Student
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Students Directory Card -->
+                    <div class="panel-card">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="data-table" id="table-students-registry">
+                                    <thead>
+                                        <tr>
+                                            <th>Roll No</th>
+                                            <th>Student Name</th>
+                                            <th>Class</th>
+                                            <th>Gender</th>
+                                            <th>Guardian Mobile</th>
+                                            <th>Attendance %</th>
+                                            <th class="text-right">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="student-registry-tbody">
+                                        <!-- Dynamic Student Rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- VIEW: ATTENDANCE REPORTS -->
+                <section id="view-reports" class="content-view">
+                    <div class="reports-setup-card card">
+                        <div class="setup-form-row">
+                            <div class="form-group flex-2">
+                                <label for="report-class-select">Class</label>
+                                <div class="select-wrapper">
+                                    <select id="report-class-select">
+                                        <option value="">-- All Classes --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group flex-2">
+                                <label for="report-month-select">Month</label>
+                                <div class="select-wrapper">
+                                    <select id="report-month-select">
+                                        <option value="2026-07">July 2026</option>
+                                        <option value="2026-06">June 2026</option>
+                                        <option value="2026-05">May 2026</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-actions-row flex-1">
+                                <button class="btn btn-primary w-100" id="btn-generate-report">
+                                    <i class="fa-solid fa-rotate"></i>
+                                    Generate Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Report Table Container -->
+                    <div class="report-board card" id="report-board" style="display: none;">
+                        <div class="board-header">
+                            <div>
+                                <h3 id="report-title-display">Attendance Matrix</h3>
+                                <p class="subtitle" id="report-subtitle-display">Class 10-A Attendance Summary</p>
+                            </div>
+                            <div class="board-actions">
+                                <button class="btn btn-soft-accent" id="btn-export-csv">
+                                    <i class="fa-solid fa-file-excel"></i> Export CSV Report
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Report Matrix (Grid representation) -->
+                        <div class="matrix-container table-responsive">
+                            <table class="data-table report-table" id="table-report-matrix">
+                                <thead id="report-matrix-thead">
+                                    <!-- Dynamic headers (Dates) -->
+                                </thead>
+                                <tbody id="report-matrix-tbody">
+                                    <!-- Dynamic rows (Students & Attendance codes) -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="report-legend">
+                            <div class="legend-item"><span class="legend-dot present"></span> Present (P)</div>
+                            <div class="legend-item"><span class="legend-dot absent"></span> Absent (A)</div>
+                            <div class="legend-item"><span class="legend-dot late"></span> Late (L)</div>
+                            <div class="legend-item"><span class="legend-dot unmarked"></span> Unmarked (-)</div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: ADD / EDIT STUDENT -->
+    <div class="modal-overlay" id="modal-student">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="student-modal-title">Register New Student</h3>
+                <button class="btn-close-modal" id="btn-close-student-modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form id="student-form" class="modal-form">
+                <input type="hidden" id="student-id-field">
+                
+                <div class="form-group">
+                    <label for="student-name">Student Full Name <span class="required">*</span></label>
+                    <input type="text" id="student-name" required placeholder="Enter student's name" class="form-input">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="student-roll">Roll Number <span class="required">*</span></label>
+                        <input type="number" id="student-roll" required placeholder="e.g. 101" class="form-input">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="student-class">Assign Class <span class="required">*</span></label>
+                        <div class="select-wrapper">
+                            <select id="student-class" required>
+                                <option value="">Select Class</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="student-gender">Gender <span class="required">*</span></label>
+                        <div class="select-wrapper">
+                            <select id="student-gender" required>
+                                <option value="Boy">Boy</option>
+                                <option value="Girl">Girl</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="student-mobile">Guardian Mobile</label>
+                        <input type="tel" id="student-mobile" placeholder="10-digit mobile number" class="form-input" pattern="[0-9]{10}">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btn-cancel-student">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="btn-submit-student">Save Registration</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: MANAGE CLASSES -->
+    <div class="modal-overlay" id="modal-classes">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3>Manage School Classes</h3>
+                <button class="btn-close-modal" id="btn-close-classes-modal">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="modal-body-content">
+                <!-- Add Class Subform -->
+                <div class="add-class-form-wrapper">
+                    <form id="class-add-form" class="inline-form">
+                        <div class="form-group flex-3">
+                            <label for="new-class-name" class="sr-only">Class/Section Name</label>
+                            <input type="text" id="new-class-name" required placeholder="e.g. Class 8-A, Class 9-B" class="form-input">
+                        </div>
+                        <button type="submit" class="btn btn-primary flex-1">
+                            <i class="fa-solid fa-plus"></i> Add Class
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Classes List -->
+                <div class="classes-list-container">
+                    <h4>Current Classes</h4>
+                    <ul class="class-list" id="class-list-ul">
+                        <!-- Dynamic Class List Items -->
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary w-100" id="btn-close-classes-view">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Core App JS -->
+    <script src="app.js"></script>
+</body>
+</html>
